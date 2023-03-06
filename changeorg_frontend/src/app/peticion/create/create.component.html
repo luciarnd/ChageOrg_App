@@ -1,0 +1,41 @@
+<div class="container mt-5" id="peticiones">
+    <div class="row">
+        <div class="col-12">
+            <form [formGroup]="form" (ngSubmit)="submit()">
+
+                <div class="mb-3">
+                    <label for="destinatario">¿Para quién va tu petición?</label>
+                    <input type="text" class="form-control" id="destinatario" formControlName="destinatario">
+                    <div *ngIf="f['titulo'].touched && f['titulo'].invalid" class="alert alert-danger">
+                        <div *ngIf="f['titulo'].errors && f['titulo'].errors['required']">destinatario is required.</div>
+                    </div>
+                    <div *ngIf="f['destinatario'].touched && f['destinatario'].invalid" class="alert alert-danger">
+                        <div *ngIf="f['destinatario'].errors && f['destinatario'].errors['required']">Titulo es requerido.</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="titulo" class="form-label">Título de tu petición</label>
+                    <input type="text" class="form-control" id="titulo" formControlName="titulo">
+                    <div *ngIf="f['titulo'].touched && f['titulo'].invalid" class="alert alert-danger">
+                        <div *ngIf="f['titulo'].errors && f['titulo'].errors['required']">destinatario es requerido.</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Cuenta tu historia</label>
+                    <textarea style="height: 200px;" class="form-control" formControlName="descripcion" placeholder="Explica el problema y porqué te preocupa. Mostrando cómo esto te impacta a ti, tu familia o tu comunidad hará que más gente quiera firmarlo." id="descripcion"></textarea>
+                    <div *ngIf="f['descripcion'].touched && f['descripcion'].invalid" class="alert alert-danger">
+                        <div *ngIf="f['descripcion'].errors && f['descripcion'].errors['required']">Descripcion es requerido.</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                  <label for="image" class="form-label">Sube una imagen</label>
+                  <input class="form-control" formControlName="image" id="iamge" type="file">
+                  <div *ngIf="f['image'].touched && f['image'].invalid" class="alert alert-danger">
+                      <div *ngIf="f['image'].errors && f['image'].errors['required']">Imagen es requerida.</div>
+                  </div>
+              </div>
+                <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>

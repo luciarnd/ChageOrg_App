@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="row" id="cabecera">
+        <div class="col-10">
+            <h2>Mis peticiones</h2>
+        </div>
+
+    </div>
+    <div class="row" id="mis-peticiones">
+        <div class="card" *ngFor="let peticion of peticiones">
+            <div class="row g-0">
+            <div class="col-md-12 col-lg-8">
+                <div class="card-body">
+                <h5 class="card-title">{{peticion.titulo}}</h5>
+                <p class="card-text">{{peticion.descripcion}}</p>
+                <p class="card-text"><small class="text-muted">Subido hace 4 horas</small></p>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-4">
+                <img src="{{peticion.image}}" class="img-fluid" alt="a">
+            </div>
+            </div>
+    </div>

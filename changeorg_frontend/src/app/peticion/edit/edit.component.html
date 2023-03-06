@@ -1,0 +1,28 @@
+<div class="container">
+    <h1>Update Post</h1>
+
+    <a href="#" routerLink="/peticion/index" class="btn btn-primary" id="btnnaranja">Back</a>
+
+    <form [formGroup]="formEdit" (ngSubmit)="submit()">
+
+        <div class="form-group">
+            <label for="titulo">Título:</label>
+            <input formControlName="titulo" id="titulo" type="text" [(ngModel)]="peticion.titulo" class="form-control">
+            <div *ngIf="f['titulo'].touched && f['titulo'].invalid" class="alert alert-danger">
+                <div *ngIf="f['titulo'].errors && f['titulo'].errors['required']">El título es obligatorio</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="descripcion">Descripcion</label>
+            <textarea formControlName="descripcion" id="descripcion" type="text" [(ngModel)]="peticion.descripcion"
+                class="form-control">
+            </textarea>
+            <div *ngIf="f['descripcion'].touched && f['descripcion'].invalid" class="alert alert-danger">
+                <div *ngIf="f['descripcion'].errors && f['descripcion'].errors['required']">La descripcion es obligatoria.</div>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" type="submit" [disabled]="!formEdit.valid" id="btnnaranja">Update</button>
+    </form>
+</div>
