@@ -1,3 +1,4 @@
+import { AuthService, User } from './../../shared/auth.service';
 import { Component } from '@angular/core';
 import { Peticion } from '../peticion';
 import { PeticionService } from '../peticion.service';
@@ -9,13 +10,14 @@ import { PeticionService } from '../peticion.service';
 })
 export class IndexComponent {
   peticiones: Peticion[] = [];
+  loggedUser!: User;
 
   /*------------------------------------------
   --------------------------------------------
   Created constructor
   --------------------------------------------
   --------------------------------------------*/
-  constructor(public peticionService: PeticionService) { }
+  constructor(public peticionService: PeticionService, private authService: AuthService) { }
 
   /**
    * Write code on Method
@@ -27,6 +29,8 @@ export class IndexComponent {
       this.peticiones = data;
       console.log(this.peticiones);
     })
+
+    this.getUserLogged()
   }
 
   /**
@@ -39,6 +43,14 @@ export class IndexComponent {
          this.peticiones = this.peticiones.filter(item => item.id !== id);
          console.log('Peticion borrada correctamente!');
     })
+  }
+
+  getUserLogged() {
+    this.authService.profileUser().subscribe((data) => {
+      this.loggedUser = data;
+      console.log(this.loggedUser)
+    })
+    console.log(this.loggedUser)
   }
 
 }

@@ -7,6 +7,7 @@ export class User {
 name!: String;
 email!: String;
 password!: String;
+role_id!: number;
 password_confirmation!: String;
 }
 

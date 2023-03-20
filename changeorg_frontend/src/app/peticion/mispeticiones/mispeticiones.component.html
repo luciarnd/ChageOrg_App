@@ -14,9 +14,12 @@
                 <p class="card-text">{{peticion.descripcion}}</p>
                 <p class="card-text"><small class="text-muted">Subido hace 4 horas</small></p>
                 </div>
+                <div class="card-footer">
+                  <button type="button" (click)="deletePost(peticion.id)" class="btn btn-danger mx-2" *ngIf="isSignedIn">Borrar</button>
+                </div>
             </div>
             <div class="col-md-12 col-lg-4">
-                <img src="{{peticion.image}}" class="img-fluid" alt="a">
+                <img src="http://localhost:8000/storage/{{peticion.image}}" class="img-fluid" alt="a">
             </div>
             </div>
     </div>

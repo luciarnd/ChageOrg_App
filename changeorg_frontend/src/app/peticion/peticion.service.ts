@@ -21,6 +21,8 @@ export class PeticionService {
     })
   }
 
+
+
   constructor(private httpClient: HttpClient) { }
 
   /**
@@ -29,15 +31,6 @@ export class PeticionService {
    * @return response()
    */
   getAll(): Observable<any> {
-
-    return this.httpClient.get(this.apiURL + '/peticiones/listado')
-
-    .pipe(
-      catchError(this.errorHandler)
-    )
-  }
-
-  getAllCategorias(): Observable<any> {
 
     return this.httpClient.get(this.apiURL + '/peticiones/listado')
 
@@ -60,9 +53,13 @@ export class PeticionService {
    *
    * @return response()
    */
-  create(peticion:Peticion): Observable<any> {
+  create(peticion: FormData): Observable<any> {
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'multipart/form-data');
+    headers.append('Accept', 'application/json');
 
-    return this.httpClient.post(this.apiURL + '/peticion/', JSON.stringify(peticion), this.httpOptions)
+    return this.httpClient.post(this.apiURL + '/peticion/', peticion, {
+      headers: headers})
 
     .pipe(
       catchError(this.errorHandler)
