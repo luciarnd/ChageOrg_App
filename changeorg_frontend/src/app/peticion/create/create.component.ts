@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Peticion } from '../peticion';
 import { PeticionService } from '../peticion.service';
 
 @Component({
@@ -11,6 +10,7 @@ import { PeticionService } from '../peticion.service';
 })
 export class CreateComponent {
   form!: FormGroup;
+  selectedImage!: any;
 
   /*------------------------------------------
   --------------------------------------------
@@ -33,7 +33,7 @@ export class CreateComponent {
       destinatario: new FormControl('', Validators.required),
       descripcion: new FormControl('', Validators.required),
       categoria_id: new FormControl(1),
-      image: new FormControl('', [Validators.required])
+      image: new FormControl('')
     });
   }
 
@@ -51,12 +51,22 @@ export class CreateComponent {
    *
    * @return response()
    */
-  submit(){
-    console.log(this.form.value);
-    this.peticionService.create(this.form.value).subscribe((res:any) => {
+  submit(form: FormGroup){
+     const formData = new FormData();
+     formData.append('image', this.selectedImage);
+     formData.append('titulo', form.value.titulo);
+     formData.append('destinatario', form.value.destinatario);
+     formData.append('descripcion', form.value.descripcion);
+     formData.append('categoria_id', form.value.categoria_id);
+     console.log(formData);
+
+    this.peticionService.create(formData).subscribe((res:any) => {
          console.log('Post created successfully!');
          this.router.navigateByUrl('peticion/index');
     })
   }
 
+  onSelectImage(event: any) {
+    this.selectedImage = event.target.files[0];
+ }
 }

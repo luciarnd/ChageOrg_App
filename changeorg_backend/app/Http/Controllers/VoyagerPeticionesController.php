@@ -6,6 +6,7 @@ use App\Models\File;
 use App\Models\Peticiones;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use TCG\Voyager\Http\Controllers\VoyagerBaseController;
 use TCG\Voyager\Models\Category;
@@ -112,7 +113,7 @@ class VoyagerPeticionesController extends VoyagerBaseController
     public function showPeticionesByUser(Request $request) {
         //parent::index();
         $id = Auth::user()->id;
-        $peticionesuser = Peticiones::all()->where('user_id',  $id);
+        $peticionesuser = Peticiones::all()->where('user_id', '=' , $id);
         return $peticionesuser;
     }
 
@@ -271,27 +272,28 @@ class VoyagerPeticionesController extends VoyagerBaseController
         $input = $request->all();
         if ($file = $request->file('image')) {
             $name = $file->getClientOriginalName();
-            $file->move('images/', $name);
+            Storage::put($name, file_get_contents($request->file('image')->getRealPath()));
+            $file->move('storage/', $name);
             $input['image'] = $name;
         }
 
-        $categoria = Category::findOrFail($input['categoria_id']);
-        $user = Auth::user(); //asociarlo al usuario authenticado
-        $peticion = new Peticiones($input);
-        $peticion->user()->associate($user);
-        $peticion->categoria()->associate($categoria);
-        $peticion->firmantes = 0;
-        $peticion->estado = 'pendiente';
-        $peticion->image = 'public/images/' . $input['image'];
-        $peticion->save();
+            $categoria = Category::findOrFail($input['categoria_id']);
+            $user = Auth::user(); //asociarlo al usuario authenticado
+            $peticion = new Peticiones($input);
+            $peticion->user()->associate($user);
+            $peticion->categoria()->associate($categoria);
+            $peticion->firmantes = 0;
+            $peticion->estado = 'pendiente';
+            $peticion->image = $input['image'];
+            $peticion->save();
 
-        $imgdb = new File();
-        $imgdb->name = $input['image'];
-        $imgdb->peticiones_id = $peticion->id;
-        $imgdb->file_path = 'public/images' . $input['image'];
-        $imgdb->save();
+            $imgdb = new File();
+            $imgdb->name = $input['image'];
+            $imgdb->peticiones_id = $peticion->id;
+            $imgdb->save();
 
-        return $peticion;
+            return $peticion;
+
     }
 
     /**
